@@ -57,9 +57,12 @@ public class MainActivity extends AppCompatActivity {
             //ao alterar o texto - cada caractere digitado
             @Override
             public boolean onQueryTextChange(String s) {
+                //forma 1: utilizar filter pronto
+                    //MainActivity1.this.meuArrayAdapter.getFilter().filter(s);
 
-                fazerBusca(s);
-                meuArrayAdapter.notifyDataSetChanged();
+                //forma 2: fazer a busca manualmente
+                    fazerBusca(s);
+                    meuArrayAdapter.notifyDataSetChanged();
 
                 return false;
             }
