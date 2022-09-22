@@ -3,8 +3,6 @@ package com.example.searchviewcomlistview;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -14,12 +12,13 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ListView listView;
-    ArrayList<String> SITES = new ArrayList<>();
-    ArrayList<String> SITES_copia;
-    ArrayAdapter<String> meuArrayAdapter;
+
+    ArrayList<Texto> arrayListTexto = new ArrayList<>();
+    ArrayList<Texto> arrayListTextoCopia;
+
+    ArrayAdapter<Texto> meuArrayAdapter;
 
     SearchView searchView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +28,19 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView1);
         searchView = findViewById(R.id.searchView1);
 
-        SITES.add("Site: Ead IFMS.com");
-        SITES.add("Site: GitHub.com");
-        SITES.add("Site: StackOverflow.com");
+        Texto texto1 = new Texto("texto 1 askhdfakjsd");
+        Texto texto2 = new Texto("texto 2 askhdfakjsd");
+        Texto texto3 = new Texto("texto 3 askhdfakjsd");
+
+        arrayListTexto.add(texto1);
+        arrayListTexto.add(texto2);
+        arrayListTexto.add(texto3);
 
         //duplicando para não alterar o original na busca
-        SITES_copia = new ArrayList<>(SITES);
+        arrayListTextoCopia = new ArrayList<>(arrayListTexto);
 
-
-        meuArrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, SITES);
+        meuArrayAdapter = new ArrayAdapter<Texto>(this,
+                android.R.layout.simple_list_item_1, arrayListTexto);
 
         listView.setAdapter(meuArrayAdapter);
 
@@ -57,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
             //ao alterar o texto - cada caractere digitado
             @Override
             public boolean onQueryTextChange(String s) {
-                //forma 1: utilizar filter pronto
+                //forma 1: utilizar filter pronto (não busca letras dentro de palavras)
                     //MainActivity1.this.meuArrayAdapter.getFilter().filter(s);
 
-                //forma 2: fazer a busca manualmente
-                    fazerBusca(s);
+                //forma 2: fazer a busca manualmente (busca letras dentro de palavras)
+                    fazerBuscaObj(s);
                     meuArrayAdapter.notifyDataSetChanged();
 
                 return false;
@@ -70,22 +72,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void fazerBusca(String s) {
+    private void fazerBuscaObj(String s) {
         //limpando array que monta a lista ao buscar algum termo na searchView
-        SITES.clear();
-
+        arrayListTexto.clear();
         //digitou algo e apagou = trazer todos. SITES_copia contém todos
         if (s.isEmpty()) {
-            SITES.addAll(SITES_copia);
+            arrayListTexto.addAll(arrayListTextoCopia);
         } else {
             //algum texto digitado na busca
             //converte para letra minúscula para não haver distinção
             s = s.toLowerCase();
             //percorre o array com os dados originais e busca
-            for (String item : SITES_copia) {
+            for (Texto item : arrayListTextoCopia) {
                 //caso, nos dados originais, exista o termo procurado, popule o array vazio com o item
-                if (item.toLowerCase().contains(s)) {
-                    SITES.add(item);
+                if (item.getTexto().toLowerCase().contains(s)) {
+                    arrayListTexto.add(item);
                 }
             }
         }
