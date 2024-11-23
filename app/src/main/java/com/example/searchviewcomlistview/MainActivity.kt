@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
 
     private var itemListCopia = ArrayList<String>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -120,5 +119,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }
